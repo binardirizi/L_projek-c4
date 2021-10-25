@@ -30,4 +30,6 @@ Route::get('/about', function () {
 });
 
 Route::get('/news', [BeritaController::class, 'index']);
+
+Route::get('/news/{news_detil:slug}',[BeritaController::class, 'show']);
     
