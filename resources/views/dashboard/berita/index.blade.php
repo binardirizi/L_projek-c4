@@ -9,6 +9,12 @@
         </div><!-- /.container-fluid -->
         <!-- /.card-header -->
         <div class="card-body">
+          @if (session()->has('sukses'))
+              <div class="alert alert-success" role="alert">
+                {{ session('sukses') }}
+              </div>
+          @endif
+          <a href="/dashboard/berita/create" class="btn btn-primary mb-3">Tambah Berita</a>
           <table id="example2" class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -19,18 +25,23 @@
             </tr>
             </thead>
             <tbody>
+            @foreach ($berita as $berita)
             <tr>
-              <td>1</td>
-              <td>Isi Data</td>
-              <td>Isi Data</td>
-              <td>4</td>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $berita->judul_berita }}</td>
+              <td>{{ $berita->category->nama }}</td>
+              <td>
+                <a href="/dashboard/berita/{{ $berita->slug }}" class="btn btn-info"><i class="far fa-eye nav-icon"></i></a>
+                <a href="/dashboard/berita/{{ $berita->slug }}/edit" class="btn btn-warning"><i class="far fa-edit nav-icon"></i></a>
+                <form action="/dashboard/berita/{{ $berita->slug }}" method="POST" class="d-inline">
+                  @method('delete')
+                  @csrf 
+                  <button class="btn btn-danger" onclick="return confirm('yakin akan menghapus data?')"><i class="nav-icon fas fa-trash-alt"></i></button>
+                </form>
+              </td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>Isi Data</td>
-              <td>Isi Data</td>
-              <td>5</td>
-            </tr>
+            @endforeach
+            </tbody>
           </table>
         </div>
         <!-- /.card-body -->
